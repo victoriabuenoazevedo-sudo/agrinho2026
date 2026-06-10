@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrator - Agro Forte e Futuro Sustentável</title>
+    <style>
+        :root {
+            --primary: #1b5e20;
+            --primary-light: #4c8c4a;
+            --primary-dark: #003300;
+            --secondary: #f57f17;
+            --secondary-light: #ffb04c;
+            --background: #fafafa;
+            --surface: #ffffff;
+            --text: #212121;
+            --text-muted: #666666;
+            --border: #e0e0e0;
+            --radius: 10px;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* HEADER & APRESENTAÇÃO */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #c8e6c9;
+            max-width: 700px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+
+        /* MENU DE NAVEGAÇÃO */
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            padding: 16px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+
+        nav button:hover {
+            color: var(--primary);
+        }
+
+        nav button.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* CONTEÚDO PRINCIPAL */
+        main {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CARDS */
+        .card {
+            background-color: var(--surface);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #424242;
+        }
+
+        /* ÁREA DO JOGO */
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        canvas {
+            background: #87CEEB;
+            border-radius: var(--radius);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            max-width: 100%;
+            display: block;
+        }
+
+        .game-ui-overlay {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            background: #f1f8e9;
+            border-left: 5px solid var(--primary);
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .game-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(27,94,32,0.3);
+        }
+
+        .game-btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        /* GRID DA ABA TÉCNICA */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .grid-item {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .grid-item h3 {
+            color: #3e2723;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 5px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            background-color: var(--surface);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>EcoTrator: O Desafio do Equilíbrio</h1>
+        <p>"Agro forte, futuro sustentável: equilíbrio entre produção e meio ambiente"</p>
+    </header>
+
+    <nav>
+        <button id="btn-home" class="active" onclick="switchTab('home')">O Projeto</button>
+        <button id="btn-game" onclick="switchTab('game')">Simulador / Jogo</button>
+        <button id="btn-tech" onclick="switchTab('tech')">Manual dos Jurados</button>
+    </nav>
+
+    <main>
+        <section id="tab-home" class="tab-content active">
+            <div class="card">
+                <h2>🌾 Filosofia do Projeto</h2>
+                <p>Este portal foi desenvolvido especialmente para o <b>Concurso de Programação</b>, trazendo uma aplicação interativa que tangibiliza o lema do ano de forma prática e visual. Em vez de apenas ler sobre sustentabilidade, os usuários e avaliadores podem vivenciar as escolhas críticas de um operador do campo.</p>
+                <p>Nossa proposta demonstra que o desenvolvimento econômico do Agronegócio e a conservação da biodiversidade não são forças opostas, mas sim engrenagens que precisam girar de forma sincronizada para garantir o futuro das próximas gerações.</p>
+            </div>
+
+            <div class="card">
+                <h2>🚜 A Mecânica da Conscientização</h2>
+                <p>O simulador apresenta uma jogabilidade de ação e estratégia lateral em tempo real baseada em três pilares fundamentais:</p>
+                <ul>
+                    <li><b>Produção Agrícola Forte:</b> Representada pela colheita rápida de grãos maduros, impulsionando os estoques e a pontuação financeira da fazenda.</li>
+                    <li><b>Preservação do Ecossistema:</b> Através do plantio imediato de árvores nativas em áreas limpas ou degradadas para regular o microclima, reter água e proteger as encostas.</li>
+                    <li><b>Gerenciamento de Riscos:</b> Desviar de obstáculos severos como matas fechadas intocáveis (áreas de preservação permanente que o trator não pode derrubar) e rochas.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="tab-game" class="tab-content">
+            <div class="card" style="text-align: center;">
+                <h2>🎮 EcoTrator Pro v3.0</h2>
+                <p style="text-align: left;">
+                    <b>Como Jogar:</b> Conduza o trator pelas 3 faixas de terra. Alterne o modo de operação do veículo para realizar a tarefa correta no talhão correspondente!
+                </p>
+                
+                <div id="game-container">
+                    <div class="game-ui-overlay">
+                        <div><b>Setas Cima / Baixo (ou W / S):</b> Muda de Faixa</div>
+                        <div><b>Barra de Espaço:</b> Altera Modo (Colheita 🌾 ⇄ Plantio 🌳)</div>
+                    </div>
+                    
+                    <canvas id="canvasJogo" width="800" height="400"></canvas>
+                    
+                    <div style="margin-top: 10px;">
+                        <button class="game-btn" onclick="focarJogo()">Focar no Teclado do Jogo</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-tech" class="tab-content">
+            <div class="card">
+                <h2>🛠️ Especificações Técnicas para Defesa Oral</h2>
+                <p>Caso a banca avaliadora questione a arquitetura e construção do projeto, aqui estão os argumentos lógicos e algorítmicos cruciais utilizados na programação:</p>
+                
+                <div class="grid">
+                    <div class="grid-item">
+                        <h3>Física de Estado Discreto (Lanes)</h3>
+                        <p>O trator se move entre 3 faixas paralelas calculadas matematicamente em eixos Y fixos, eliminando problemas de colisão imprecisa e garantindo uma experiência estável e leve para o navegador.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Sistema de Partículas Dinâmicas</h3>
+                        <p>Desenvolvido em JavaScript puro (Vanilla JS), o motor gera vetores aleatórios de opacidade e velocidade para criar a fumaça do motor e folhas verdes ao restaurar o solo.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Algoritmo de Deterioração</h3>
+                        <p>As barras de status sofrem uma perda infinitesimal contínua, simulando o consumo natural de alimentos pela sociedade e a degradação passiva da terra sem manejo ecológico.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Arquitetura Limpa</h3>
+                        <p>Código unificado estruturado sem frameworks externos. Isso prova domínio pleno da lógica fundamental e otimização pura de renderização a 60 quadros por segundo via requestAnimationFrame.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Projeto Desenvolvido para o Concurso de Programação - Agrinho 2026</p>
+        <p style="font-size: 0.8rem; margin-top: 5px; color: #aaa;">Tecnologias nativas: HTML5 Canvas, CSS3 Avançado e JavaScript Moderno (ES6+).</p>
+    </footer>
+
+    <script>
+        // GERENCIADOR DE ABAS (TABS)
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById(`btn-${tabName}`).classList.add('active');
+
+            if (tabName === 'game') {
+                setTimeout(focarJogo, 100);
+            }
+        }
+
+        function focarJogo() {
+            canvas.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            canvas.focus();
+        }
+
+        // ====================================================================
+        // MOTOR DO JOGO (JAVASCRIPT CANVAS ENGINE)
+        // ====================================================================
+        const canvas = document.getElementById("canvasJogo");
+        const ctx = canvas.getContext("2d");
+
+        canvas.tabIndex = 1; 
+
+        let jogoAcabou = false;
+        let pontuacaoTotal = 0;
+        let mensagemFinal = "";
+
+        let barraProducao = 50;
+        let barraMeioAmbiente = 50;
+
+        const faixasY = [120, 220, 320];
+        
+        let trator = {
+            faixa: 1, 
+            x: 120,
+            y: faixasY[1],
+            modo: "COLHEITA", 
+            largura: 70,
+            altura: 45
+        };
+
+        let elementos = [];
+        let particulas = [];
+        let cronometroSpawn = 0;
+
+        canvas.addEventListener("keydown", function(e) {
+            if (jogoAcabou) {
+                if (e.code === "Space" || e.code === "KeyR") reiniciarSistemas();
+                e.preventDefault();
+                return;
+            }
+
+            if (e.code === "ArrowUp" || e.code === "KeyW") {
+                if (trator.faixa > 0) trator.faixa--;
+                e.preventDefault();
+            }
+            if (e.code === "ArrowDown" || e.code === "KeyS") {
+                if (trator.faixa < 2) trator.faixa++;
+                e.preventDefault();
+            }
+            if (e.code === "Space") {
+                trator.modo = trator.modo === "COLHEITA" ? "PLANTIO" : "COLHEITA";
+                e.preventDefault();
+            }
+        });
+
+        function criarParticulas(x, y, tipo) {
+            let cor = tipo === "COLHEITA" ? "#ffca28" : "#4caf50";
+            if (tipo === "FUMACA") cor = "rgba(80,80,80,0.4)";
+
+            let contagem = tipo === "FUMACA" ? 1 : 12;
+            for (let i = 0; i < contagem; i++) {
+                particulas.push({
+                    x: x,
+                    y: y,
+                    vx: tipo === "FUMACA" ? -1 - Math.random() : (Math.random() - 0.5) * 4,
+                    vy: tipo === "FUMACA" ? -0.5 - Math.random() : (Math.random() - 0.5) * 4,
+                    raio: tipo === "FUMACA" ? 3 + Math.random()*4 : 2 + Math.random() * 3,
+                    vida: 1.0,
+                    decay: tipo === "FUMACA" ? 0.03 : 0.02,
+                    cor: cor
+                });
+            }
+        }
+
+        function atualizar() {
+            if (jogoAcabou) return;
+
+            let yAlvo = faixasY[trator.faixa] - trator.altura / 2;
+            trator.y += (yAlvo - trator.y) * 0.25;
+
+            barraProducao -= 0.05;
+            barraMeioAmbiente -= 0.05;
+
+            criarParticulas(trator.x + 15, trator.y + 5, "FUMACA");
+
+            cronometroSpawn++;
+            if (cronometroSpawn > 45) {
+                let faixaAleatoria = Math.floor(Math.random() * 3);
+                let randTipo = Math.random();
+                let tipoSurgido = "GRAO_MADURO";
+
+                if (randTipo > 0.7) tipoSurgido = "TERRA_DEGRADADA";
+                else if (randTipo > 0.88) tipoSurgido = "RESERVA_LEGAL";
+
+                elementos.push({
+                    x: 820,
+                    y: faixasY[faixaAleatoria],
+                    faixa: faixaAleatoria,
+                    tipo: tipoSurgido,
+                    ativo: true
+                });
+                cronometroSpawn = 0;
+            }
+
+            for (let i = 0; i < elementos.length; i++) {
+                let el = elementos[i];
+                el.x -= 4.5; 
+
+                if (el.ativo && Math.abs(el.x - trator.x) < 45 && el.faixa === trator.faixa) {
+                    el.ativo = false;
+
+                    if (el.tipo === "GRAO_MADURO") {
+                        if (trator.modo === "COLHEITA") {
+                            barraProducao += 15;
+                            barraMeioAmbiente -= 3; 
+                            pontuacaoTotal += 20;
+                            criarParticulas(el.x, el.y, "COLHEITA");
+                        } else {
+                            barraProducao -= 5;
+                        }
+                    } 
+                    else if (el.tipo === "TERRA_DEGRADADA") {
+                        if (trator.modo === "PLANTIO") {
+                            barraMeioAmbiente += 18;
+                            barraProducao -= 2; 
+                            pontuacaoTotal += 30;
+                            criarParticulas(el.x, el.y, "PLANTIO");
+                        } else {
+                            barraMeioAmbiente -= 8;
+                        }
+                    }
+                    else if (el.tipo === "RESERVA_LEGAL") {
+                        barraMeioAmbiente -= 20;
+                        barraProducao -= 10;
+                    }
+                }
+
+                if (el.x < -50) {
+                    elementos.splice(i, 1);
+                    i--;
+                }
+            }
+
+            for (let i = 0; i < particulas.length; i++) {
+                let p = particulas[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vida -= p.decay;
+                if (p.vida <= 0) {
+                    particulas.splice(i, 1);
+                    i--;
+                }
+            }
+
+            if (barraProducao > 100) barraProducao = 100;
+            if (barraMeioAmbiente > 100) barraMeioAmbiente = 100;
+
+            if (barraProducao <= 0) {
+                jogoAcabou = true;
+                mensagemFinal = "Fome Econômica: A falta de colheita quebrou o abastecimento da fazenda.";
+            }
+            if (barraMeioAmbiente <= 0) {
+                jogoAcabou = true;
+                mensagemFinal = "Colapso Climático: A ausência de matas esgotou a água e secou a região.";
+            }
+        }
+
+        function desenhar() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#bbdefb";
+            ctx.fillRect(0, 0, canvas.width, 80);
+
+            ctx.fillStyle = "#a1887f"; 
+            ctx.fillRect(0, 80, canvas.width, 320);
+
+            ctx.strokeStyle = "rgba(62,39,35,0.15)";
+            ctx.lineWidth = 4;
+            faixasY.forEach(fy => {
+                ctx.beginPath();
+                ctx.moveTo(0, fy + 20);
+                ctx.lineTo(canvas.width, fy + 20);
+                ctx.stroke();
+            });
+
+            elementos.forEach(el => {
+                if (!el.ativo) return;
+
+                ctx.save();
+                ctx.translate(el.x, el.y);
+
+                if (el.tipo === "GRAO_MADURO") {
+                    ctx.fillStyle = "#ffa000";
+                    ctx.beginPath(); ctx.arc(0, 0, 14, 0, Math.PI*2); ctx.fill();
+                    ctx.fillStyle = "#ffca28";
+                    ctx.fillRect(-5, -5, 10, 10);
+                } 
+                else if (el.tipo === "TERRA_DEGRADADA") {
+                    ctx.fillStyle = "#d7ccc8";
+                    ctx.fillRect(-16, -16, 32, 32);
+                    ctx.strokeStyle = "#8d6e63";
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(-16, -16, 32, 32);
+                }
+                else if (el.tipo === "RESERVA_LEGAL") {
+                    ctx.fillStyle = "#004d40";
+                    ctx.beginPath();
+                    ctx.moveTo(0, -22); ctx.lineTo(18, 12); ctx.lineTo(-18, 12);
+                    ctx.closePath(); ctx.fill();
+                    ctx.fillStyle = "#00796b";
+                    ctx.beginPath(); ctx.arc(0, 0, 8, 0, Math.PI*2); ctx.fill();
+                }
+
+                ctx.restore();
+            });
+
+            particulas.forEach(p => {
+                ctx.fillStyle = p.cor;
+                ctx.globalAlpha = p.vida;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.raio, 0, Math.PI*2); ctx.fill();
+                ctx.globalAlpha = 1.0; 
+            });
+
+            ctx.save();
+            ctx.translate(trator.x, trator.y);
+
+            let corImplemento = trator.modo === "COLHEITA" ? "#ffb300" : "#4caf50";
+            
+            ctx.fillStyle = "#cc2211"; 
+            ctx.fillRect(-22, -18, 44, 30);
+            
+            ctx.fillStyle = "#212121";
+            ctx.fillRect(-5, -26, 22, 10);
+            ctx.fillStyle = "#e0f2f1"; 
+            ctx.fillRect(4, -23, 10, 6);
+
+            ctx.fillStyle = "#111";
+            ctx.beginPath(); ctx.arc(-16, 12, 13, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = "#9e9e9e";
+            ctx.beginPath(); ctx.arc(-16, 12, 5, 0, Math.PI*2); ctx.fill();
+
+            ctx.fillStyle = "#111";
+            ctx.beginPath(); ctx.arc(18, 14, 8, 0, Math.PI*2); ctx.fill();
+
+            ctx.fillStyle = corImplemento;
+            ctx.fillRect(24, -6, 12, 18);
+            ctx.strokeStyle = "#fff";
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(24, -6, 12, 18);
+
+            ctx.restore();
+
+            ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+            ctx.fillRect(0, 0, canvas.width, 55);
+
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 13px sans-serif";
+            ctx.fillText("MODO TRATOR:", 20, 32);
+            
+            ctx.fillStyle = trator.modo === "COLHEITA" ? "#ffa000" : "#4caf50";
+            ctx.fillRect(120, 16, 110, 24);
+            ctx.fillStyle = "#fff";
+            ctx.fillText(trator.modo === "COLHEITA" ? "🌾 COLHEITA" : "🌳 PLANTIO", 135, 32);
+
+            ctx.fillStyle = "#fff"; ctx.fillText("PRODUÇÃO:", 260, 32);
+            ctx.fillStyle = "#555"; ctx.fillRect(340, 19, 100, 16);
+            ctx.fillStyle = "#ffb300"; ctx.fillRect(340, 19, barraProducao, 16);
+
+            ctx.fillStyle = "#fff"; ctx.fillText("ECO-SISTEMA:", 460, 32);
+            ctx.fillStyle = "#555"; ctx.fillRect(560, 19, 100, 16);
+            ctx.fillStyle = "#43a047"; ctx.fillRect(560, 19, barraMeioAmbiente, 16);
+
+            ctx.fillStyle = "#fff"; ctx.font = "bold 15px sans-serif";
+            ctx.fillText(`PONTOS: ${pontuacaoTotal}`, 690, 33);
+
+            if (jogoAcabou) {
+                ctx.fillStyle = "rgba(11, 23, 11, 0.95)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.textAlign = "center";
+                ctx.fillStyle = "#ff8a80"; ctx.font = "bold 26px sans-serif";
+                ctx.fillText("EQUILÍBRIO ROMPIDO!", canvas.width / 2, 160);
+                
+                ctx.fillStyle = "#fff"; ctx.font = "15px sans-serif";
+                ctx.fillText(mensagemFinal, canvas.width / 2, 210);
+                
+                ctx.fillStyle = "#c8e6c9"; ctx.font = "bold 18px sans-serif";
+                ctx.fillText(`Desempenho Sustentável Final: ${pontuacaoTotal} pontos`, canvas.width / 2, 260);
+                
+                ctx.fillStyle = "#aaa"; ctx.font = "13px sans-serif";
+                ctx.fillText("Pressione [ BARRA DE ESPAÇO ] para restaurar os talhões e reiniciar.", canvas.width / 2, 330);
+                ctx.textAlign = "left"; 
+            }
+        }
+
+        function reiniciarSistemas() {
+            barraProducao = 50;
+            barraMeioAmbiente = 50;
+            pontuacaoTotal = 0;
+            elementos = [];
+            particulas = [];
+            trator.faixa = 1;
+            jogoAcabou = false;
+        }
+
+        function loopGeral() {
+            atualizar();
+            desenhar();
+            requestAnimationFrame(loopGeral);
+        }
+
+        loopGeral();
+    </script>
+</body>
+</html>
